@@ -1,1 +1,2 @@
-# inf_zagle_21-22
+# Informatyka rozszerzona
+C++
