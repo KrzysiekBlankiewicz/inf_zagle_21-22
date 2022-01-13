@@ -1,0 +1,4 @@
+task_id | due_date | description ;
+
+task_01 22.12.202 Tworzenie struktury katalogów do przechowywania rozwiązań kolejnych zadań;
+task_02 20.01.2022 Wprowadzenie do klas - Student i SchoolClass;
