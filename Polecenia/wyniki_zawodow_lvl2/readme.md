@@ -1,0 +1,3 @@
+W każdym wierszu pliku wyniki.txt znajduje się miejsce jakie zajął pewien zawodnik oraz liczba wykonanych przez niego okrążeń oddzielone spacją. Liczba okrążeń podana jest w systemie binarnym.
+Zwróć uwagę, że tym razem kilku zawodników może zająć to samo miejsce ex aequo.
+Napisz program, który wypisze średnią liczbę okrążeń pokonaną przez zawodników oraz liczbę zawodników, którzy pokonali liczbę okrążeń podzielną przez 5.
