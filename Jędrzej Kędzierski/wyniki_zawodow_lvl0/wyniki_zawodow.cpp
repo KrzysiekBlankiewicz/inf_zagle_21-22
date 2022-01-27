@@ -29,7 +29,7 @@ double oblicz_srednia(int x[10])
 	return suma/10.0;
 }
  
-wybierz_zawodnika(int x[10])
+int wybierz_zawodnika(int x[10])
 {
 	for(int i=0; i<10; i++)
 	{
