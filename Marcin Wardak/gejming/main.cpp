@@ -2,6 +2,7 @@
 #include <cstdlib>
 #include <ctime>
 #include <cstdio>
+#include <conio.h>
 using namespace std;
 
 bool display_board (short a, short b, short size)
@@ -28,10 +29,27 @@ int main(int argc, char** argv)
 	cin >> size;
 	cord_x = rand()%size;
 	cord_y = rand()%size;
+	display_board(cord_x, cord_y, size);
 	while (true)
 	{
-		command = getchar();
-		if ()
+		command = getch();
+//		if (command == 'a')
+//			display_board(--cord_x, cord_y, size);
+//		if (command == 'w')
+//			display_board(cord_x, --cord_y, size);
+//		if (command == 's')
+//			display_board(cord_x, ++cord_y, size);
+//		if (command == 'd')
+//			display_board(++cord_x, cord_y, size);
+		if (command == 'a'&&cord_x)
+			cord_x--;
+		if (command == 'w'&&cord_y)
+			cord_y--;
+		if (command == 's'&&size-cord_y-1)
+			cord_y++;
+		if (command == 'd'&&size-cord_x-1)
+			cord_x++;
+		display_board(cord_x, cord_y, size);
 	}
 	return 0;
 }
