@@ -9,7 +9,7 @@ string szyfrowanie(string slowo, int klucz)
 	
 	for(int i=0; i<slowo.length(); i++)
 	{
-		if(slowo[i]+klucz>90)
+		if(slowo[i]+klucz>'Z')
 		{
 			slowo[i]=slowo[i]-26;
 		}
@@ -20,18 +20,103 @@ string szyfrowanie(string slowo, int klucz)
 	return slowo;
 }
 
+string rozszyfrowywanie(string slowo, int klucz)
+{
+	klucz=klucz%26;
+	
+	for(int i=0; i<slowo.length(); i++)
+	{
+		if(slowo[i]-klucz<'A')
+		{
+			slowo[i]=slowo[i]+26;
+		}
+		
+		slowo[i]=slowo[i]-klucz;
+	}
+	
+	return slowo;
+}
+
+bool czy_blad(string slowo, string slowo_zakodowane)
+{
+	int klucz1;
+	int klucz2;
+	
+	for(int i=0; i<slowo.length(); i++)
+	{
+		if(slowo[i]<slowo_zakodowane[i])
+		{
+			klucz1=slowo_zakodowane[i]-slowo[i];
+		}
+		else
+		{
+			klucz1=('Z'-slowo[i])+1+(slowo_zakodowane[i]-'A');
+		}
+		
+		if(i>0)
+		{
+			if(klucz1!=klucz2)
+			{
+				return 1;
+			}
+		}
+		
+		klucz2=klucz1;
+	}
+	
+	return 0;
+}
+
 int main(int argc, char** argv) {
 	
-	fstream file;
-	file.open("dane_6_1.txt",ios::in);
+	fstream infile;
+	fstream outfile;
 	
-	string slowo[100];
+	//Rozwiazanie 6_1
 	
-	for(int i=0; i<100; i++)
+	infile.open("dane_6_1.txt",ios::in);
+	outfile.open("wyniki_6_1.txt",ios::out);
+	
+	string slowo, slowo_zakodowane;
+	int klucz=107;
+	
+	while(infile>>slowo)
 	{
-		file>>slowo[i];
-		cout<<szyfrowanie(slowo[i], 107)<<endl;
+		infile>>slowo;
+		outfile<<szyfrowanie(slowo, klucz)<<endl;
 	}
+	
+	infile.close();
+	outfile.close();
+	
+	//Rozwiazanie 6_2
+	
+	infile.open("dane_6_2.txt",ios::in);
+	outfile.open("wyniki_6_2.txt",ios::out);
+	
+	while(infile>>slowo_zakodowane && infile>>klucz)
+	{
+		outfile<<rozszyfrowywanie(slowo_zakodowane, klucz)<<endl;
+	}
+	
+	infile.close();
+	outfile.close();
+	
+	//Rozwiazanie 6_3
+	
+	infile.open("dane_6_3.txt",ios::in);
+	outfile.open("wyniki_6_3.txt",ios::out);
+	
+	while(infile>>slowo && infile>>slowo_zakodowane)
+	{
+		if(czy_blad(slowo, slowo_zakodowane)==1)
+		{
+			outfile<<slowo<<endl;
+		}
+	}
+	
+	infile.close();
+	outfile.close();
 	
 	return 0;
 }
