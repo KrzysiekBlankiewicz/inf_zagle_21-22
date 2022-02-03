@@ -13,18 +13,18 @@ bool Board::display_board(short cord_x, short cord_y, short size)
 //		for (short x = 0; x < size; x ++)
 //			std::cout << ((y==cord_y&&x==cord_x)?'X':'_') << "|";
 //	}
-	std::string output = "";
+	std::string output [2*size+1] = "";
 	system("CLS");
 	for (short x = 0; x < size; x ++)
-		output+=" _";
+		output.push_back(' ');
+		output.push_back('_');
 	for (short y = 0; y < size; y ++)
 	{
-		std::cout << output << "\n|";
-		output.clear();
+		std::cout << output << ("\n|");
 		for (short x = 0; x < size; x ++)
 		{
-			std::string+=(char)((y==cord_y&&x==cord_x)?'X':'_');
-			std::string+='|';
+			std::output.push_back((char)((y==cord_y&&x==cord_x)?'X':'_'));
+			std::string.push_back('|');
 		}
 	}
 	std::cout << output;
