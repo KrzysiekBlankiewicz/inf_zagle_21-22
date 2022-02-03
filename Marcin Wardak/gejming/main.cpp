@@ -10,6 +10,7 @@ using namespace std;
 
 int main(int argc, char** argv)
 {
+	
 	srand(time(NULL));
 	Board board;
 	char command;
@@ -24,5 +25,6 @@ int main(int argc, char** argv)
 		board.mainPlayer.move(command, board.size);
 		board.display_board(board.mainPlayer.cord_x, board.mainPlayer.cord_y, board.size);
 	}
+	
 	return 0;
 }
