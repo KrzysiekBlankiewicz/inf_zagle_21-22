@@ -1,5 +1,6 @@
 #include <iostream>
 #include <fstream>
+#include <cmath>
 using namespace std;
 bool isCykliczny (string binary)
 {
@@ -37,11 +38,23 @@ bool isBCD(string binary)
 	}
 	return 1;
 }
+int toDecimal (string binary)
+{
+	int output = 0;
+	for (short x = 0; x < binary.length(); x ++)
+	{
+		if (binary[x]=='1')
+			output += pow(2, binary.length()-x-1);
+	}
+	return output;
+}
 int main(int argc, char** argv)
 {
 	string binary, max_binary;
 	short max_1 = 0;
 	short min_2 = INT_MAX;
+	int max_3 = 0;
+	string max_binary_3;
 	short licznik_1 = 0;
 	short licznik_2 = 0;
 	fstream input ("binarne.txt", ios::in);
@@ -62,8 +75,18 @@ int main(int argc, char** argv)
 			if (binary.length()<min_2)
 				min_2 = binary.length();
 		}
+		if (binary.length()<17)
+		{
+			int current = toDecimal(binary);
+			if (current > max_3)
+			{
+				max_3 = current;
+				max_binary_3 = binary;
+			}
+		}
 	}
 	cout << licznik_1 << " " << max_binary << " " << max_binary.length() << endl;
 	cout << licznik_2 << " " << min_2 << endl;
+	cout << max_3 << " " << max_binary_3;
 	return 0;
 }
