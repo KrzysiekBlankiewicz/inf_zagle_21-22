@@ -6,3 +6,5 @@ wyniki_zawodow 27.01.2022 Konwersja binarna i zliczanie warunkowe;
 wyniki_zawodow_lvl1 2.02.2022 Wersja programu wymagająca przechowania danych;
 wyniki_zawodow_lvl2 2.02.2022 Wersja programu korzystajaca z klas; 
 ferie_intro 3.02.2022 Rysowanie planszy 4x4 w konsoli;
+szyfr_cezar 3.02.2022 Szyfrowanie i odszyfrowywanie szyfrem cezara;
+binarne 4.02.2022 Operacje na liczbach binarnych jako liczbach i jako ciągach znaków;
