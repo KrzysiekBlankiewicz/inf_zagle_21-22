@@ -17,6 +17,8 @@ class Board
 		bool display_board();
 		bool spawn_my_player();
 		bool spawn_enemy();
+		bool set_up_game();
+		bool play();
 };
 
 #endif
