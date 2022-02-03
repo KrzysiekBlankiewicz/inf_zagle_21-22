@@ -1,7 +1,7 @@
 #include "Player.h"
 
 
-void Player::move(char command, int board_size_x, int board_size_y)
+bool Player::move(char command, int board_size_x, int board_size_y)
 {
 		if(command=='w')
 		{
@@ -23,5 +23,6 @@ void Player::move(char command, int board_size_x, int board_size_y)
 			if(coordinate_x!=board_size_x-1)
 				coordinate_x++;
 		}
-		
+	
+	return 0;
 }
