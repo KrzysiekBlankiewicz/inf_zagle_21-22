@@ -1,0 +1,1 @@
+Należy rozszerzyć działanie programu z drawingBoard o możliwość poruszania się po narysowanej planszy. Oznacza to, że po każdym ruchu użytkownika (wpisaniu odpowiedniego znaku w konsoli) rysujemy ponownie planszę ze zaktualizowaną pozycją znacznika x. Recz jasna należy zadbać aby nie "wyszedł" on poza planszę.
