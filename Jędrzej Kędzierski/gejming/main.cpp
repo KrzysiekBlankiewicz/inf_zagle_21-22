@@ -1,70 +1,38 @@
 #include <iostream>
+#include <cstdlib>
+#include <ctime>
 
 using namespace std;
 
-void wiersz_pierwszy(int l)
+bool display_board(int s, int x, int y)
 {
-	for(int i=0; i<l; i++)
+	if(x>=s ||y>=s)
+	{
+		return 1;
+	}
+	
+	for(int i=0; i<s; i++)
 	{
 		cout<<" _";
 	}
 	
 	cout<<endl;
-}
-
-void wiersz(int l)
-{
-	char znak='_';
 	
-	for(int i=0; i<l; i++)
+	for(int i=0; i<s; i++)
 	{
-		cout<<"|";
-		cout<<znak;
-	}
-	
-	cout<<"|"<<endl;
-}
-
-void wiersz_z_x(int l, int x)
-{
-	char znak='_';
-	
-	for(int i=0; i<l; i++)
-	{
-		if(i==x)
+		for(int j=0; j<s; j++)
 		{
-			cout<<"|";
-			cout<<"x";
+			if(x==j && y==i)
+			{
+				cout<<"|X";
+			}
+			else
+			{
+				cout<<"|_";
+			}
 		}
-		else
-		{
-			cout<<"|";
-			cout<<znak;
-		}
-	}
-	
-	cout<<"|"<<endl;
-}
-
-bool board(int l, int x, int y)
-{
-	if(x>=l ||y>=l)
-	{
-		return 1;
-	}
-	
-	wiersz_pierwszy(l);
-	
-	for(int i=0; i<l; i++)
-	{
-		if(i==y)
-		{
-			wiersz_z_x(l, x);
-		}
-		else
-		{
-			wiersz(l);
-		}
+		
+		cout<<"|"<<endl;
 	}
 	
 	return 0;
@@ -72,29 +40,52 @@ bool board(int l, int x, int y)
 
 int main(int argc, char** argv) {
 	
-	int l=4;
-	cout<<"Podaj wspolrzedne"<<endl;
-	string a;
-	cin>>a;
+	int size=10;//wielkosc planszy
 	
-	int x=toupper(a[0])-'A';
-	int y=a[1]-'1';
+	srand(time(NULL));
 	
-	while(x>=l || y>=l)
+	int coordinate_x=rand()%size;
+	int coordinate_y=size-1;
+	
+	display_board(size, coordinate_x, coordinate_y);
+	
+	char command;
+	
+	while(true)
 	{
-		cout<<"Niepoprawne wspolrzedne"<<endl<<"Podaj jeszcze raz"<<endl;
-		cin>>a;
+		cin>>command;
 		
-		x=toupper(a[0])-'A';
-		y=a[1]-'1';
+		if(command=='w')
+		{
+			if(coordinate_y!=0)
+			{
+				coordinate_y--;
+			}
+		}
+		else if(command=='a')
+		{
+			if(coordinate_x!=0)
+			{
+				coordinate_x--;
+			}
+		}
+		else if(command='d')
+		{
+			if(coordinate_x!=size-1)
+			{
+				coordinate_x++;
+			}
+		}
+		else if(command='s')
+		{
+			if(coordinate_y!=size-1)
+			{
+				coordinate_y++;
+			}
+		}
+		
+		display_board(size, coordinate_x, coordinate_y);
 	}
-	
-	board(l, x, y);
-	
-	
-	
-	
-	
 	
 	return 0;
 }
