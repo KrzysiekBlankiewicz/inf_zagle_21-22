@@ -1,6 +1,4 @@
 #include <iostream>
-#include <cstdlib>
-#include <ctime>
 #include <conio.h>
 
 #include "Player.h"
@@ -12,14 +10,9 @@ int main(int argc, char** argv) {
 	
 	Board main_board;
 	
-	main_board.size_x=16;//wielkosc planszy
-	main_board.size_y=16;
-	
-	srand(time(NULL));
-	
-	main_board.my_player.coordinate_x=rand()%main_board.size_x;
-	main_board.my_player.coordinate_y=main_board.size_y-1;
-	
+	main_board.define_board();
+	main_board.spawn_my_player();
+	main_board.spawn_enemy();
 	main_board.display_board();
 	
 	char command;
@@ -29,8 +22,13 @@ int main(int argc, char** argv) {
 		command=getch();
 		
 		main_board.my_player.move(command, main_board.size_x, main_board.size_y);
+		main_board.enemy.move_enemy(main_board.size_x, main_board.size_y);
 		
-		main_board.display_board();
+		if(main_board.display_board()==0)
+		{
+			cout<<"GAME OVER"<<endl;
+			return 0;
+		}
 	}
 	
 	return 0;

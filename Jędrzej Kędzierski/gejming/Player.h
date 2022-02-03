@@ -10,6 +10,7 @@ class Player
 	int coordinate_y;
 	
 	bool move(char command,int board_size_x, int board_size_y);
+	bool move_enemy(int board_size_x, int board_size_y);
 };
 
 #endif
