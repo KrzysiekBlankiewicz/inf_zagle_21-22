@@ -1,5 +1,5 @@
 
-Napisz program, który wypisze/narysuje w konsoli planszę 4x4 pola wyglądającą jak poniżej:
+Napisz program, który wypisze/narysuje w konsoli planszę 4x4 pola wyglądającą jak poniżej (widok poprawny w tylko w notatniku ;) ):
  _ _ _ _
 |_|_|_|_|
 |_|_|_|_|
