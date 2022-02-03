@@ -1,90 +1,36 @@
 #include <iostream>
 #include <cstdlib>
 #include <ctime>
+#include <conio.h>
+
+#include "Player.h"
+#include "Board.h"
 
 using namespace std;
 
-bool display_board(int s, int x, int y)
-{
-	if(x>=s ||y>=s)
-	{
-		return 1;
-	}
-	
-	for(int i=0; i<s; i++)
-	{
-		cout<<" _";
-	}
-	
-	cout<<endl;
-	
-	for(int i=0; i<s; i++)
-	{
-		for(int j=0; j<s; j++)
-		{
-			if(x==j && y==i)
-			{
-				cout<<"|X";
-			}
-			else
-			{
-				cout<<"|_";
-			}
-		}
-		
-		cout<<"|"<<endl;
-	}
-	
-	return 0;
-}
-
 int main(int argc, char** argv) {
 	
-	int size=10;//wielkosc planszy
+	Board main_board;
+	
+	main_board.size_x=16;//wielkosc planszy
+	main_board.size_y=16;
 	
 	srand(time(NULL));
 	
-	int coordinate_x=rand()%size;
-	int coordinate_y=size-1;
+	main_board.my_player.coordinate_x=rand()%main_board.size_x;
+	main_board.my_player.coordinate_y=main_board.size_y-1;
 	
-	display_board(size, coordinate_x, coordinate_y);
+	main_board.display_board();
 	
 	char command;
 	
 	while(true)
 	{
-		cin>>command;
+		command=getch();
 		
-		if(command=='w')
-		{
-			if(coordinate_y!=0)
-			{
-				coordinate_y--;
-			}
-		}
-		else if(command=='a')
-		{
-			if(coordinate_x!=0)
-			{
-				coordinate_x--;
-			}
-		}
-		else if(command='d')
-		{
-			if(coordinate_x!=size-1)
-			{
-				coordinate_x++;
-			}
-		}
-		else if(command='s')
-		{
-			if(coordinate_y!=size-1)
-			{
-				coordinate_y++;
-			}
-		}
+		main_board.my_player.move(command, main_board.size_x, main_board.size_y);
 		
-		display_board(size, coordinate_x, coordinate_y);
+		main_board.display_board();
 	}
 	
 	return 0;
