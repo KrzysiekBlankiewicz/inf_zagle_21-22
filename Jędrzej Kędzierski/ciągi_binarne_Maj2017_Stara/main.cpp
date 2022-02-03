@@ -1,5 +1,6 @@
 #include <iostream>
 #include <fstream>
+#include <cmath>
 
 using namespace std;
 
@@ -47,6 +48,21 @@ bool isNiePoprawna(string binary)
 	return 0;
 }
 
+int toDecimal(string binary)
+{
+	int decimal=0;
+	
+	for(int i=0; i<binary.length(); i++)
+	{
+		if(binary[i]=='1')
+		{
+			decimal=decimal+pow(2,binary.length()-i-1);
+		}
+	}
+	
+	return decimal;
+}
+
 int main(int argc, char** argv) {
 	
 	string binary;
@@ -55,6 +71,9 @@ int main(int argc, char** argv) {
 	string napis1;
 	int dlugosc1=0;
 	int dlugosc2=INT_MAX;
+	int max3=0;
+	string max_binary3;
+	
 	fstream infile("binarne.txt", ios::in);
 	
 	while(infile>>binary)
@@ -78,10 +97,27 @@ int main(int argc, char** argv) {
 			}
 		}
 		
+		if(binary.length()<17)//1111111111111111(2)=65535(10)
+		{
+			int current=toDecimal(binary);
+			if(current>max3)
+			{
+				max3=current;
+				max_binary3=binary;
+			}
+		}
+		
 	}
 	
-	cout<<licznik1<<" "<<dlugosc1<<" "<<napis1<<endl;
-	cout<<licznik2<<" "<<dlugosc2<<endl;
+	infile.close();
+	
+	fstream outfile("zadanie4.txt", ios::out);
+	
+	outfile<<"4.1"<<endl<<endl<<"liczba napisow dwucyklicznych: "<<licznik1<<endl<<"Najwieksza dlugosc napisu dwucyklicznego: "<<dlugosc1<<endl<<"Najdluzszy napis dwucykliczne: "<<napis1<<endl<<endl;
+	outfile<<"4.2"<<endl<<endl<<"liczba slow niepoprawnych: "<<licznik2<<endl<<" dlugosc najkrotszego niepoprawnego napisu: "<<dlugosc2<<endl<<endl;
+	outfile<<"4.3"<<endl<<endl<<"Najwieksza liczba w zapisie binarnym: "<<max_binary3<<endl<<"Najwieksza liczba w zapisie dziesietnym: "<<max3<<endl;
+	
+	outfile.close();
 	
 	return 0;
 }

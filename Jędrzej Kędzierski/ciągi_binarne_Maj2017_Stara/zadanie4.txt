@@ -1,0 +1,15 @@
+4.1
+
+liczba napisow dwucyklicznych: 18
+Najwieksza dlugosc napisu dwucyklicznego: 32
+Najdluzszy napis dwucykliczne: 00100101100011100010010110001110
+
+4.2
+
+liczba slow niepoprawnych: 359
+ dlugosc najkrotszego niepoprawnego napisu: 4
+
+4.3
+
+Najwieksza liczba w zapisie binarnym: 1101011001100101
+Najwieksza liczba w zapisie dziesietnym: 54885
