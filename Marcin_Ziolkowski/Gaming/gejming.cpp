@@ -20,9 +20,9 @@ int main()
 	char kierunek;
 	cout<<"Podaj rozmiar: ";
 	cin>>r;
-	cout<<"Podaj swojÄ… lokalizacjÄ™ wedlug osi x ";
+	cout<<"Podaj swoj¹ lokalizacjê wedlug osi x ";
 	cin>>x;
-	cout<<"Podaj swojÄ… lokalizacjÄ™ wedlug osi y ";
+	cout<<"Podaj swoj¹ lokalizacjê wedlug osi y ";
 	cin>>y;
 	w=k;
 
@@ -39,7 +39,7 @@ int main()
 		}
 		
 		cout<<"Sterujesz wsad"<<endl;
-		cout<<"JeÅ¼eli chcesz skonczyc wciÅ›nij x"<<endl;
+		cout<<"Je¿eli chcesz skonczyc wciœnij x"<<endl;
 		cin>>kierunek;
 		if(kierunek=='w' && !(y-1==0))
 		y=y-1;
