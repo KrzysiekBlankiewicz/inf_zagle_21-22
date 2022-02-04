@@ -23,14 +23,6 @@ bool Board::spawn_my_player()
 	return 1;
 }
 
-bool Board::spawn_enemy()
-{
-	enemy.coordinate_x=rand()%size_x;
-	enemy.coordinate_y=rand()%(size_y-2);//enemy pojawia sie oddalony od my_player o conajmniej dwa wiersze w gore
-	
-	return 1;
-}
-
 bool Board::spawn_enemies()
 {
 	for(int i=0; i<enemies_number; i++)
@@ -44,12 +36,32 @@ bool Board::spawn_enemies()
 
 bool Board::display_board()
 {
-	if(my_player.coordinate_x>=size_x ||my_player.coordinate_y>=size_y || my_player.coordinate_x<0 ||my_player.coordinate_y<0)//useless
-		return 1;
-	
 	system("CLS");
 	
 	cout<<"Type direction [WASD] or x to exit"<<endl;
+	
+	char map[size_x][size_y];
+	bool not_game_over=1;//wartosc prawda oznacza, ze gracz gra dalej, falsz - ze zginal
+	
+	for(int i=0; i<size_y; i++)//zapelnianie mapy pozycjami "_"
+	{
+		for(int j=0; j<size_x; j++)
+		{
+			map[j][i]='_';
+		}
+	}
+	map[my_player.coordinate_x][my_player.coordinate_y]='X';//oznaczanie pozycji my_player
+	
+	for(int i=0; i<enemies_number; i++)
+	{
+		if(map[enemies[i].coordinate_x][enemies[i].coordinate_y]=='X')//sprawdzenie czy na danej pozycji nie stoi enemy i my_player
+		{
+			map[enemies[i].coordinate_x][enemies[i].coordinate_y]='*';
+			not_game_over=0;
+		}
+		else
+			map[enemies[i].coordinate_x][enemies[i].coordinate_y]='O';//oznaczanie pozycji enemy
+	}
 	
 	for(int i=0; i<size_x; i++)
 	{
@@ -58,32 +70,11 @@ bool Board::display_board()
 	
 	cout<<endl;
 	
-	bool not_game_over=1;//wartosc prawda oznacza, ze gracz gra dalej, falsz - ze zginal
-	
 	for(int i=0; i<size_y; i++)
 	{
 		for(int j=0; j<size_x; j++)
 		{
-			if(my_player.coordinate_x==j && my_player.coordinate_y==i)//wyswietlanie my_player
-			{
-				if(my_player.coordinate_x==enemy.coordinate_x && my_player.coordinate_y==enemy.coordinate_y)//sprawdzenie czy na danej pozycji nie stoi enemy
-				{
-					cout<<"|*";
-					not_game_over=0;
-				}
-				else
-				{
-					cout<<"|X";
-				}
-			}
-			else if(enemy.coordinate_x==j && enemy.coordinate_y==i)//wyswietlanie enemy
-			{
-				cout<<"|O";
-			}
-			else
-			{
-				cout<<"|_";
-			}
+			cout<<"|"<<map[j][i];
 		}
 		
 		cout<<"|"<<endl;
@@ -98,7 +89,6 @@ bool Board::set_up_game()
 	
 	define_board();
 	spawn_my_player();
-	spawn_enemy();
 	spawn_enemies();
 	display_board();
 	
@@ -117,7 +107,11 @@ bool Board::play()
 			break;
 		
 		my_player.move(command, size_x, size_y);
-		enemy.move_enemy(size_x, size_y);
+		
+		for(int i=0; i<enemies_number; i++)
+		{
+			enemies[i].move_enemy(size_x, size_y);
+		}
 		
 		if(display_board()==0)//jezeli gracz przegral (not_game_over==false)
 		{
