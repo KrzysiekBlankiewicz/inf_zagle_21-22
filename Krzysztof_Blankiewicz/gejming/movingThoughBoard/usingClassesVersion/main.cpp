@@ -2,7 +2,7 @@
 #include "Board.h"
 
 
-int main(int argc, char** argv) 
+int main() 
 {
 	Board board;
 	
