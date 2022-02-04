@@ -4,7 +4,7 @@ a 1
 lllllll 7
 ooooo 5
 wwwwww 6
- 0
+aaaaaaaaaaa 11
 jj 2
 b 1
 ttt 3
@@ -35,7 +35,7 @@ yyyyyyyyyyyy 12
 ccc 3
 j 1
 tttt 4
- 0
+a 1
 r 1
 gg 2
 zzzzzzzz 8

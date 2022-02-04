@@ -37,7 +37,7 @@ string find_longest (string ciag)
 	{
 		if (ciag[x] != ciag[x-1])
 		{
-			if (max < count) 
+			if (max < count)
 			{
 				max = count;
 				max_char = ciag[x-1];
@@ -47,6 +47,8 @@ string find_longest (string ciag)
 		else
 			count ++;
 	}
+	if (max == 0)
+		max = count;
 	for (short x = 0; x < max; x ++)
 	{
 		output.push_back(max_char);
@@ -55,7 +57,20 @@ string find_longest (string ciag)
 }
 bool is_smaller (short liczba1, string ciag1, short liczba2, string ciag2)
 {
-	if ()
+	if (liczba1<liczba2)
+		return 1;
+	else if (liczba1==liczba2)
+	{
+		for (short x = 0; x < (ciag1.length()>ciag2.length())?ciag2.length():ciag1.length(); x ++)
+		{
+			if (ciag1[x] < ciag2[x])
+				return 1;
+			else if (ciag1[x] > ciag2[x])
+			 return 0;
+		}
+		return ((ciag1.length()>ciag2.length())?0:1);
+	}
+	else return 0;
 }
 int main(int argc, char** argv)
 {
@@ -67,7 +82,7 @@ int main(int argc, char** argv)
 	fstream output_3 ("odp3.txt", ios::out);
 	short liczba[100];
 	string ciag[100];
-	short min_liczba = SHORT_MAX;
+	short min_liczba = SHRT_MAX;
 	string min_string = "";
 	for (short x = 0; x < 100; x ++)
 	{
@@ -79,7 +94,7 @@ int main(int argc, char** argv)
 		output_2 << longest_string << " " << longest_string.length() << endl;
 		if (ciag[x].length()==liczba[x]) //3333
 		{
-			if (min_liczba==SHORT_MAX)
+			if (min_liczba==SHRT_MAX)
 			{
 				min_liczba = liczba[x];
 				min_string = ciag[x];
@@ -94,5 +109,10 @@ int main(int argc, char** argv)
 			}
 		}
 	}
+	output_3 << min_string << " " << min_liczba;
+	input.close();
+	output_1.close();
+	output_2.close();
+	output_3.close();
 	return 0;
 }
