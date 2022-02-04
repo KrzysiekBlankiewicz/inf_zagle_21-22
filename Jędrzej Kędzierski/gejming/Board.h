@@ -9,7 +9,7 @@ class Board
 		
 		int size_x;
 		int size_y;
-		const static int enemies_number=2;
+		const static int enemies_number=4;
 				
 		Player my_player;
 		Player enemies[enemies_number];
