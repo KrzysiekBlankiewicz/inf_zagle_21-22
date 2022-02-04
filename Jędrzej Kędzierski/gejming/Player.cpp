@@ -31,8 +31,6 @@ bool Player::move(char command, int board_size_x, int board_size_y)
 
 bool Player::move_enemy(int board_size_x, int board_size_y)
 {
-	srand(time(NULL));
-	
 	int command=rand()%4;
 	
 	if(command==0)

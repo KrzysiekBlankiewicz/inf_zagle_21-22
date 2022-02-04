@@ -17,8 +17,6 @@ bool Board::define_board()
 
 bool Board::spawn_my_player()
 {
-	srand(time(NULL));
-	
 	my_player.coordinate_x=rand()%size_x;
 	my_player.coordinate_y=size_y-1;//my_player pojawia sie w losowym miejscu, ale tylko w dolnym wierszu
 	
@@ -27,10 +25,19 @@ bool Board::spawn_my_player()
 
 bool Board::spawn_enemy()
 {
-	srand(time(NULL));
-	
 	enemy.coordinate_x=rand()%size_x;
 	enemy.coordinate_y=rand()%(size_y-2);//enemy pojawia sie oddalony od my_player o conajmniej dwa wiersze w gore
+	
+	return 1;
+}
+
+bool Board::spawn_enemies()
+{
+	for(int i=0; i<enemies_number; i++)
+	{
+		enemies[i].coordinate_x=rand()%size_x;
+		enemies[i].coordinate_y=rand()%(size_y-2);//enemies pojawiaja sie oddaleni od my_player o conajmniej dwa wiersze w gore
+	}
 	
 	return 1;
 }
@@ -87,9 +94,12 @@ bool Board::display_board()
 
 bool Board::set_up_game()
 {
+	srand(time(NULL));
+	
 	define_board();
 	spawn_my_player();
 	spawn_enemy();
+	spawn_enemies();
 	display_board();
 	
 	return 1;
