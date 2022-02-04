@@ -17,7 +17,8 @@ int main(int argc, char** argv)
 	cout << "wprowadz rozmiar planszy: ";
 	cin >> board.size;
 	board.mainPlayer.cord_x = rand()%board.size;
-	board.mainPlayer.cord_y = rand()%board.size;
+	board.mainPlayer.cord_y = board.size-1;
+	board.set_enemy_start_position();
 	board.display_board(board.mainPlayer.cord_x, board.mainPlayer.cord_y, board.size);
 	while (true)
 	{
