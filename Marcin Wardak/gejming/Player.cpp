@@ -2,7 +2,6 @@
 
 bool Player::move (char command, short size)
 {
-	//switch?
 	if (command == 'a'&&cord_x!=0)
 	{
 		cord_x--;

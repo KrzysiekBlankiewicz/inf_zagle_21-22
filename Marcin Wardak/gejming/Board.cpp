@@ -1,6 +1,41 @@
 #include "Board.h"
 #include <string>
-bool Board::display_board(short cord_x, short cord_y, short size)
+#include <conio.h>
+#include <windows.h>
+#include <set>
+bool Board::set_up_game()
+{
+	std::cout << "wprowadz rozmiar planszy: ";
+	while (std::cin >> size && enemy_number>size*(size-1))
+		std::cout << "zbyt mala plansza\n";
+	
+	mainPlayer.cord_x = rand()%size;
+	mainPlayer.cord_y = size-1;
+	set_enemy_start_position();
+	display_board();
+	return 0;
+}
+
+bool Board::gameplay()
+{
+	char command;
+	while (true)
+	{
+		command = getch();
+		move_all_enemies();
+		if (!mainPlayer.move(command, size)) // jeœli player mo¿e poruszyæ siê w danym kierunku, to wyœwietl planszê
+		{
+			if (display_board()) // jeœli gra siê skoñczy
+			{
+				getch();
+				return 1;
+			}
+		}
+		else Beep (220, 75); // w przeciwnym wypadku wydaj dŸwiêk
+	}
+	return 0;
+}
+bool Board::display_board()
 {
 	bool game_has_ended = 0;
 	if (mainPlayer.cord_x >= size || mainPlayer.cord_y >= size)
@@ -30,19 +65,38 @@ bool Board::display_board(short cord_x, short cord_y, short size)
 	return game_has_ended;
 }
 
+//bool Board::set_enemy_start_position()
+//{
+//	for (short x = 0; x < enemy_number; x ++)
+//	{
+//		enemy[x].cord_x = rand()%(size);
+//		enemy[x].cord_y = rand()%(size-1);
+//	}
+//	return 0;
+//}
+
 bool Board::set_enemy_start_position()
 {
-	for (short x = 0; x < enemy_number; x ++)
+	short opt_left = size*(size-1);
+	short current_number;
+	bool layout[opt_left] = {0};
+	std::set<short> chosen_ones;
+	std::set<short>::iterator iter;
+	for (short x = 0; x < enemy_number; ++x)
 	{
-		enemy[x].cord_x = rand()%(size);
-		enemy[x].cord_y = rand()%(size-1);
+		current_number = rand()%opt_left;
+		--opt_left;
+		current_number += distance(chosen_ones.begin(), chosen_ones.lower_bound(current_number)); // ile przeciwnikow wczeœniej wylosowanych pojawia siê przed nim
+		while (chosen_ones.insert(current_number).second==false) // jeœli ktoœ ju¿ siedzi na wylosowanym miejscu, przesuñ siê dalej
+			++current_number;
+		current_number %= (size-1)*size; // tak na wszelki wypadek
+		enemy[x].cord_x = current_number%size; // konwersja na wspó³rzêdne
+		enemy[x].cord_y = current_number/size;
 	}
-	return 0;
 }
-
 bool Board::move_all_enemies()
 {
-	for (short x = 0; x < enemy_number; x ++)
+	for (short x = 0; x < enemy_number; ++x)
 	{
 		if (enemy[x].cord_y == 0) // góra
 		{
@@ -66,7 +120,7 @@ bool Board::move_all_enemies()
 			enemy[x].move_enemy(rand()%3+1, size); // L krawêdŸ - 1/2/3
 		else if (enemy[x].cord_x == size-1) //prawo
 			enemy[x].move_enemy((rand()%3+3)%4, size); // P krawêdŸ - 0/1/3
-		else 								
+		else
 			enemy[x].move_enemy(rand()%4, size); // z dala od krawêdzi - 0/1/2/3
 	}
 	return 0;
