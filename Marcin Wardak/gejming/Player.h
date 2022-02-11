@@ -8,7 +8,7 @@ class Player
 	short cord_y;
 	
 	bool move (char command, short size);
-	bool move_enemy (short command, short size);
+	bool move_enemy (short command);
 };
 
 #endif

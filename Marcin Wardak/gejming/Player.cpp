@@ -25,7 +25,7 @@ bool Player::move (char command, short size)
 	return 1;
 }
 
-bool Player::move_enemy (short command, short size)
+bool Player::move_enemy (short command)
 {
 	switch (command)
 	{

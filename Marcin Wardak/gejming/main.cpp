@@ -12,5 +12,6 @@ int main(int argc, char** argv)
 	Board board;
 	board.set_up_game();
 	board.gameplay();
-	return 0;
+    return 0;
 }
+
