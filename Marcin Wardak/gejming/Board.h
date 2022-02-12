@@ -18,8 +18,9 @@ class Board
 	bool display_board();
 	bool set_enemy_start_position();
 	bool move_all_enemies();
-	//std::string which_directions_possible(short x);
-	std::string game_over();
+	bool will_cover_sb(short cords, bool layout[], short x);
+	bool can_move (short cords, bool layout[]);
+	std::string which_directions_possible(short x, bool layout[]);
 };
 
 #endif

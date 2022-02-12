@@ -1,8 +1,8 @@
-#include "Board.h"
 #include <string>
 #include <conio.h>
 #include <windows.h>
-#include <vector>
+#include "Board.h"
+
 bool Board::set_up_game()
 {
 	std::cout << "wprowadz rozmiar planszy: ";
@@ -22,19 +22,16 @@ bool Board::gameplay()
 	while (true)
 	{
 		command = getch();
-		move_all_enemies();
 		if (!mainPlayer.move(command, size)) // jeœli player mo¿e poruszyæ siê w danym kierunku, to wyœwietl planszê
 		{
+			move_all_enemies();
 			if (display_board()) // jeœli gra siê skoñczy
-			{
-				getch();
-				return 1;
-			}
+				return 0;
 		}
-		else Beep (220, 75); 				// w przeciwnym wypadku wydaj dŸwiêk
+		else Beep (220, 75); 	// w przeciwnym wypadku wydaj dŸwiêk
 	}
-	return 0;
 }
+
 bool Board::display_board()
 {
 	bool game_has_ended = 0;
@@ -51,29 +48,22 @@ bool Board::display_board()
 			output[x] = '\n';
 	}
 	for (short x = 0; x < enemy_number; x ++) // wyœwietlanie przeciwników
-	{
-		output[(enemy[x].cord_y)*(string_size)+string_size+enemy[x].cord_x*2+1] = (char)(x%10+48);
-	}
-	if (output[(mainPlayer.cord_y)*(string_size)+string_size+mainPlayer.cord_x*2+1] == 'O') // nastapienie na przeciwnika
-	{
-		output[(mainPlayer.cord_y)*(string_size)+string_size+mainPlayer.cord_x*2+1] = '*';
-		game_has_ended = 1; // informuje o koncu gry
-		output.append(game_over());
-	}
-	else output[(mainPlayer.cord_y)*(string_size)+string_size+mainPlayer.cord_x*2+1] = 'X'; // wyœwietlanie gracza
+		output[(enemy[x].cord_y)*(string_size)+string_size+enemy[x].cord_x*2+1] = char(x%10+48);
+//	if (output[(mainPlayer.cord_y)*(string_size)+string_size+mainPlayer.cord_x*2+1] == 'O') // nastapienie na przeciwnika
+//	{
+//		output[(mainPlayer.cord_y)*(string_size)+string_size+mainPlayer.cord_x*2+1] = '*';
+//		game_has_ended = 1; // informuje o koncu gry
+//		output.append("\nGAME OVER");
+//	}
+//	else output[(mainPlayer.cord_y)*(string_size)+string_size+mainPlayer.cord_x*2+1] = 'X'; // wyœwietlanie gracza
 	std::cout << output;
+//	short licznik = 0;
+//	for (short x=  0; x < output.length(); x ++)
+//		if (output[x] == 'O')
+//			++licznik;
+//	std::cout << std::endl << licznik;
 	return game_has_ended;
 }
-
-//bool Board::set_enemy_start_position()
-//{
-//	for (short x = 0; x < enemy_number; x ++)
-//	{
-//		enemy[x].cord_x = rand()%(size);
-//		enemy[x].cord_y = rand()%(size-1);
-//	}
-//	return 0;
-//}
 
 bool Board::set_enemy_start_position()
 {
@@ -96,82 +86,169 @@ bool Board::set_enemy_start_position()
 
 bool Board::move_all_enemies()
 {
-	bool layout[size][size];
+	bool layout[size*size];
 	for (short x = 0; x < size; ++x)
 		for (short y = 0; y < size; ++y)
-			layout[x][y] = false;
+			layout[y*size+x] = false;
 	for (short x = 0; x < enemy_number; ++x)
 	{
-		std::cout << "nr: " << x;
-		std::string options = which_directions_possible(x, layout, ); // nie mog³em zrobiæ tablicy o zerowej d³ugoœci
-		short decision;
-		if (options.length() > 0)
+		std::cout << "NR: " << x << std::endl;
+		std::string options = which_directions_possible(x, layout); // nie mog³em zrobiæ tablicy o zerowej d³ugoœci
+		short decision = -1;
+		if (options.length() > 0)					// Jeœli mo¿esz siê ruszyæ...
 		{
-			decision = options[rand()%options.length()];
-			enemy[x].move_enemy(decision);
+			std::cout << "SA OPCJE\n";
+			decision = rand()%options.length();
+			enemy[x].move_enemy(options[decision]); // to to zrób
 		}
-		else decision = -1;
-		std::cout << " decyzja: " << decision;
+		std::cout << "OPCJE: ";
+		for (short a = 0; a < options.length(); a ++)
+			//std::cout << (std::string)((options[a]==0)?"lewo":(options[a]==1?"gora":(options[a]==2?"prawo":(options[a]==3?"dol":"nic")))) << " " << (char)(options[a]+48);
+			options[a] += 48;
+		std::cout << options << "\nDECYZJA: " << (char)(decision+48) << (std::string)((options.length()>0)?((options[decision]==48)?"lewo":(options[decision]==49?"gora":(options[decision]==50?"prawo":(options[decision]==51?"dol":"nic")))):"nic") << std::endl;
+		
+		std::cout << "cords: " << enemy[x].cord_y*size+enemy[x].cord_x << std::endl;
+		layout[enemy[x].cord_y*size+enemy[x].cord_x] = true;
+		for (short a = 0; a < size; a ++)
+		{
+			for (short b = 0; b < size; b ++)
+				std::cout << layout [a*size+b] << " ";
+			std::cout << std::endl;
+		}
 		std::cout << std::endl;
-		layout[enemy[x].cord_x][enemy[x].cord_y] = true;
 	}
 }
-//
-//bool Board::will_block_someone(short x, bool &layout [size][size], short direction)
-//{
-//	switch (direction)
-//	{
-//		case 0:
-//			for (cnt+=1; cnt < enemy_number; cnt ++)
-//			{
-//				if (enemy[x].cord_x - 1 == enemy[cnt].cord_x && enemy[x].cord_y == enemy[cnt].cord_y) // jeœli ktoœ ju¿ tam jest, a jeszcze siê nie ruszy³
-//				{
-//					if (layout[enemy[x].cord_x-1][enemy[x].cord_y-1]==1&&layout[enemy[x].cord_x-1][enemy[x].cord_y+1]==1&&layout[enemy[x].cord_x][enemy[x].cord_y]==1) // czy ktoœ otacza tamt¹ osobê
-//					{
-//						if (enemy[x].cord_x)
-//					}
-//				}
-//			}
-//		case 1:
-//		case 2:
-//		case 3:
-//	}
-//}
-std::string Board::which_directions_possible(short x)
+
+bool Board::will_cover_sb(short cords, bool layout[], short x)
+{
+	if (x == enemy_number - 1)
+	{std::cout << "ostatni przeciwnik\n";
+	return false;} // jesli to juz ostatni przeciwnik, to na nikogo nie moze nastapic
+	else std::cout << "cords " << cords << std::endl;
+	for (short a = x+1; a < enemy_number; ++a)
+	{
+		std::cout << "cordsy przeciwnika: " << enemy[a].cord_y*size+enemy[a].cord_x << std::endl;
+		if (enemy[a].cord_y*size+enemy[a].cord_x == cords) // jesli ktos tam siedzi
+		{
+			if (can_move(cords, layout) == false)
+				return true;
+		}
+		if (cords/size != 0)
+		{
+			std::cout << "\tsprawdzanie gora gora\n";
+			if (can_move(cords-size, layout) == false)
+			{
+				std::cout << "GÓRA ZABLOKUJE!\n";
+				getch();getch();getch();
+				return true;
+			}
+		}
+		if (cords%size != 0)
+		{
+			std::cout << "\tsprawdzanie lewo lewo\n";
+			if (can_move(cords-1, layout) == false)
+			{
+				std::cout << "LEWO ZABLOKUJE!\n";
+				getch();getch();getch();
+				return true;
+			}
+		}
+		if (cords/size != size-1)
+		{
+			std::cout << "\tsprawdzanie dol dol\n";
+			if (can_move(cords+size, layout) == false)
+			{
+				std::cout << "DOL ZABLOKUJE!\n";
+				getch();getch();getch();
+				return true;
+			}
+		}
+		if (cords%size != size-1)
+		{
+			std::cout << "\tsprawdzanie prawo prawo\n";
+			if (can_move(cords+1, layout) == false)
+			{
+				std::cout << "PRAWO ZABLOKUJE!\n";
+				getch();getch();getch();
+				return true;
+			}
+		}
+		std::cout << std::endl;
+	}
+	return false;
+}
+
+bool Board::can_move (short cords, bool layout[])
+{
+	if (cords/size != 0)
+		if (layout[cords-size] == false)
+			return true;
+	if (cords%size != 0)
+		if (layout[cords-1] == false)
+			return true;
+	if (cords/size != size-1)
+		if (layout[cords+size] == false)
+			return true;
+	if (cords%size != size-1)
+		if (layout[cords+1] == false)
+			return true;
+	return false;
+}
+std::string Board::which_directions_possible(short x, bool layout[])
 {
 	std::string output = "";
-	if (enemy[x].cord_x != 0) // je¿eli nie jest na krawêdzi
+	int cords = enemy[x].cord_y*size+enemy[x].cord_x;
+	std::cout << "CORDS: " << cords << std::endl;
+	if (enemy[x].cord_x != 0)
 	{
-		if (layout[enemy[x].cord_x-1][enemy[x].cord_y] == false) // je¿eli nie stoi tam ktoœ inny
-			if (will_block_someone(x, &layout, 0) == false) // je¿eli ten ruch nie spowoduje nast¹pienia na zablokowanych graczy
+		if (layout[cords-1] == false)
+		{
+			std::cout << "sprawdzanie lewo\n";
+			layout [cords-1] = true;
+			if (will_cover_sb (cords-1, layout, x) == false)
 				output += (char)0;
-		else std::cout << " Problem: przeciwnik lewo ";
+			layout [cords-1] = false;
+		}
+		else std::cout << "przec lewo\n";
 	}
-	else std::cout << " Problem: sciana lewo ";
+	else std::cout << "sciana lewo\n";
 	if (enemy[x].cord_y != 0)
 	{
-		if (layout[enemy[x].cord_x][enemy[x].cord_y-1] == false)
-			output += (char)1;
-		else std::cout << " Problem: przeciwnik gora ";
+		if (layout[cords-size] == false)
+		{
+			std::cout << "sprawdzanie gora\n";
+			layout [cords-size] = true;
+			if (will_cover_sb (cords-size, layout, x) == false)
+				output += (char)1;
+			layout [cords-size] = false;
+		}
+		else std::cout << "przec gora\n";
 	}
-	else std::cout << " Problem: sciana gora ";
+	else std::cout << "sciana gora\n";
 	if (enemy[x].cord_x != size-1)
 	{
-		if (layout[enemy[x].cord_x+1][enemy[x].cord_y] == false)
-			output += (char)2;
-		else std::cout << " Problem: przeciwnik prawo ";
+		if (layout[cords+1] == false)
+		{
+			std::cout << "sprawdzanie prawo\n";
+			layout [cords+1] = true;
+			if (will_cover_sb (cords+1, layout, x) == false)
+				output += (char)2;
+			layout [cords+1] = false;
+		}
+		else std::cout << "przec prawo\n";
 	}
-	else std::cout << " Problem: sciana prawo ";
+	else std::cout << "sciana prawo\n";
 	if (enemy[x].cord_y != size-1)
 	{
-		if (layout[enemy[x].cord_x][enemy[x].cord_y+1] == false)
-			output += (char)3;
-		else std::cout << " Problem: przeciwnik dol ";
+		if (layout[cords+size] == false)
+		{
+			std::cout << "sprawdzanie dol\n";
+			layout [cords+size] = true;
+			if (will_cover_sb (cords+size, layout, x) == false)
+				output += (char)3;
+			layout [cords+size] = false;
+		}
 	}
-	else std::cout << " Problem: sciana dol ";
+	else std::cout << "sciana dol\n";
 	return output;
-}
-std::string Board::game_over()
-{
-	return "\nGAME OVER";
 }
