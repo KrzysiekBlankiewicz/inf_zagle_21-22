@@ -53,18 +53,19 @@ bool Board::display_board()
 	{
 		output[(mainPlayer.cord_y)*(string_size)+string_size+mainPlayer.cord_x*2+1] = '*';
 		game_has_ended = 1; // informuje o koncu gry
-		output.append("\nGAME OVER");
 	}
 	else output[(mainPlayer.cord_y)*(string_size)+string_size+mainPlayer.cord_x*2+1] = 'X'; // wyœwietlanie gracza
-	std::cout << output;
+	if (game_has_ended == true) // jeœli gra zakonczy³a siê
+		anim_handling.endgame_anim (output, mainPlayer.cord_x, mainPlayer.cord_y, size);
+	else std::cout << output;
 	return game_has_ended;
 }
 
 bool Board::set_enemy_start_position()
 {
-	short opt_left = size*(size-1);
+	int opt_left = size*(size-1);
 	short current_number;
-	std::set<short> chosen_ones;
+	std::set<int> chosen_ones;
 	for (short x = 0; x < enemy_number; ++x)
 	{
 		current_number = rand()%opt_left;
@@ -103,7 +104,7 @@ bool Board::move_all_enemies()
 	}
 }
 
-bool Board::will_cover_sb(short cords, bool layout[], short x, bool enemies_left[])
+bool Board::will_cover_sb(int cords, bool layout[], short x, bool enemies_left[])
 {
 	if (enemies_left[cords] == true && can_move(cords, layout) == false) 			// jesli ktos tam jest i nie moze sie ruszyc
 		return true;
@@ -118,20 +119,16 @@ bool Board::will_cover_sb(short cords, bool layout[], short x, bool enemies_left
 	return false;
 }
 
-bool Board::can_move (short cords, bool layout[])
+bool Board::can_move (int cords, bool layout[])
 {
-	if (cords/size != 0)
-		if (layout[cords-size] == false)
-			return true;
-	if (cords%size != 0)
-		if (layout[cords-1] == false)
-			return true;
-	if (cords/size != size-1)
-		if (layout[cords+size] == false)
-			return true;
-	if (cords%size != size-1)
-		if (layout[cords+1] == false)
-			return true;
+	if (cords/size != 0 && layout[cords-size] == false)
+		return true;
+	if (cords%size != 0 && layout[cords-1] == false)
+		return true;
+	if (cords/size != size-1 && layout[cords+size] == false)
+		return true;
+	if (cords%size != size-1 && layout[cords+1] == false)
+		return true;
 	return false;
 }
 std::string Board::which_directions_possible(short x, bool layout[], bool enemies_left[])
