@@ -11,6 +11,7 @@ bool Board::set_up_game()
 	
 	mainPlayer.cord_x = rand()%size;
 	mainPlayer.cord_y = size-1;
+	win_cords = (rand()%(size<3?1:size/3)+1)*(size*2+2) + rand()%size*2+1;
 	set_enemy_start_position();
 	display_board();
 	return 0;
@@ -55,8 +56,15 @@ bool Board::display_board()
 		game_has_ended = 1; // informuje o koncu gry
 	}
 	else output[(mainPlayer.cord_y)*(string_size)+string_size+mainPlayer.cord_x*2+1] = 'X'; // wyœwietlanie gracza
-	if (game_has_ended == true) // jeœli gra zakonczy³a siê
-		anim_handling.endgame_anim (output, mainPlayer.cord_x, mainPlayer.cord_y, size);
+
+	if (output[win_cords] == 'X') // jeœli gra zakoñczy³a siê wygran¹
+	{
+		anim_handling.game_over_anim (output, mainPlayer.cord_x, mainPlayer.cord_y, size, true);
+		return 1;
+	}
+	else output[win_cords] = char(219);
+	if (game_has_ended == true) // jeœli gra zakonczy³a siê przegran¹
+		anim_handling.game_over_anim (output, mainPlayer.cord_x, mainPlayer.cord_y, size, false);
 	else std::cout << output;
 	return game_has_ended;
 }
@@ -66,6 +74,8 @@ bool Board::set_enemy_start_position()
 	int opt_left = size*(size-1);
 	short current_number;
 	std::set<int> chosen_ones;
+	chosen_ones.insert(win_cords/(size*2+2)*size+win_cords%(size*2+2));
+	--opt_left;
 	for (short x = 0; x < enemy_number; ++x)
 	{
 		current_number = rand()%opt_left;
@@ -89,6 +99,7 @@ bool Board::move_all_enemies()
 			layout[y*size+x] = false;
 			enemies_left[y*size+x] = false;
 		}
+	layout[win_cords/(size*2+2)*size+win_cords%(size*2+2)] = true;
 	for (short x = 0; x < enemy_number; ++x)
 		enemies_left[enemy[x].cord_y*size+enemy[x].cord_x] = true;
 	for (short x = 0; x < enemy_number; ++x)

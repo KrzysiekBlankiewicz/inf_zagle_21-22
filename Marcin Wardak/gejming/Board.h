@@ -10,7 +10,8 @@ class Board
 {
 	public:
 	short size;
-	const static short enemy_number = 20;
+	short win_cords;
+	const static short enemy_number = 100;
 	Player mainPlayer;
 	Player enemy[enemy_number];
 	animations anim_handling;
