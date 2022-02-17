@@ -7,7 +7,7 @@ bool animations::game_over_anim (std::string display, short cord_x, short cord_y
 	short sleep_time = 200.0/size;
 	if (has_won == false)
 		num_of_frames = (short)sqrt((fmax(size-cord_x-1,cord_x)+1)*(fmax(size-cord_x-1,cord_x)+1)+(fmax(size-cord_y-1, cord_y)+1)*(fmax(size-cord_y-1, cord_y)+1))+4; // pitagoras - obliczanie odleg. od najdalszego rogu
-	else num_of_frames = short(fmin(fmax(size-cord_x-1,cord_x),fmax(size-cord_y-1, cord_y))*sqrt(2))+5;
+	else num_of_frames = short(sqrt(fmax(size-cord_x-1,cord_x)*fmax(size-cord_y-1, cord_y)))+5;
 	std::cout << display;
 	for (short x = 0; x < num_of_frames; ++x)
 	{
