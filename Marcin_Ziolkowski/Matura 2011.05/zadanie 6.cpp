@@ -23,15 +23,10 @@ string sumabinarna(int suma)
 	
 	do{
 		if(suma%2==0)
-		{
 			zapis+='0';
-			suma/=2;
-		}
 		else
-		{
 			zapis+='1';
-			suma/=2;
-		}
+		suma/=2;
 	}while(suma>0);
 
 	for(int i=zapis.length()-1; i>=0; i--)
