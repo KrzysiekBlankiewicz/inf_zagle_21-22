@@ -9,9 +9,7 @@ int dziesietny(string liczba, int dlugosc)
 	for(int i=dlugosc-1; i>=0; i--)
 	{
 		if(liczba[i]=='1')
-		{
 			wynik+=pow(2,x);
-		}
 		x++;
 	}
 	return wynik;
