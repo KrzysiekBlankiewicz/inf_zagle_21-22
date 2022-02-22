@@ -9,9 +9,9 @@
 class Board
 {
 	public:
-	short size;
+	int size;
 	short win_cords;
-	const static short enemy_number = 100;
+	const static short enemy_number = 10;
 	Player mainPlayer;
 	Player enemy[enemy_number];
 	animations anim_handling;

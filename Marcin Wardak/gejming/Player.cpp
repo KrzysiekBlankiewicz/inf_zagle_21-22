@@ -1,6 +1,6 @@
 #include "Player.h"
 
-bool Player::move (char command, short size)
+bool Player::move (char command, int size)
 {
 	if (command == 'a'&&cord_x!=0)
 	{

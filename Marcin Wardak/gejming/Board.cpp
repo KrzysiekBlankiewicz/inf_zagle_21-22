@@ -6,12 +6,19 @@
 bool Board::set_up_game()
 {
 	std::cout << "wprowadz rozmiar planszy: ";
-	while (std::cin >> size && enemy_number>size*(size-1))
-		std::cout << "zbyt mala plansza\n";
-	
+	do
+	{
+		std::cin >> size;
+		if ((int)(size*(size-1))>INT_MAX)
+			std::cout << "zbyt duza plansza\n";
+		else if (enemy_number>size*(size-1)-1)
+			std::cout << "zbyt mala plansza\n";
+		else break;
+	} while (true);
+	system("CLS");
 	mainPlayer.cord_x = rand()%size;
 	mainPlayer.cord_y = size-1;
-	win_cords = (rand()%(size<3?1:size/3)+1)*(size*2+2) + rand()%size*2+1;
+	win_cords = (rand()%(size<3?1:size/3)+1)*(size*2+2) + rand()%size*2+1; // koordynaty mety
 	set_enemy_start_position();
 	display_board();
 	return 0;
@@ -31,17 +38,21 @@ bool Board::gameplay()
 		}
 		else Beep (220, 75); 	// w przeciwnym wypadku wydaj dŸwiêk
 	}
+	return 0;
 }
 
 bool Board::display_board()
 {
 	bool game_has_ended = 0;
 	if (mainPlayer.cord_x >= size || mainPlayer.cord_y >= size)
-		return 1;							
-	system("CLS");
+		return 1;
+	COORD cord;
+	cord.X = 0;
+	cord.Y = 0;
+	SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), cord); // kursor na (0, 0)
 	short string_size = 2*size+2; // szerokosc = 2*size+1 + nowa linia, wysokosc = 2*size+1
 	std::string output ((string_size)*(size+1), '_');
-	for (short x = 0; x < output.size(); x ++)
+	for (int x = 0; x < output.size(); x ++)
 	{
 		if ((x%(string_size))%2==0) // dodawanie spacji [pierwsza linijka] / œcian [reszta]
 			output[x] = x/(string_size-1)?'|':' ';
@@ -72,10 +83,10 @@ bool Board::display_board()
 bool Board::set_enemy_start_position()
 {
 	int opt_left = size*(size-1);
-	short current_number;
+	int current_number;
 	std::set<int> chosen_ones;
-	chosen_ones.insert(win_cords/(size*2+2)*size+win_cords%(size*2+2));
-	--opt_left;
+	chosen_ones.insert(win_cords/(size*2+2)*size-size+(win_cords%(size*2+2)-1)/2);  // blokujemy koordynaty mety dla spawnuj¹cych siê przeciwników
+	--opt_left; 																	// jako ¿e meta zajmuje ju¿ jedno miejsce, musimy zmniejszyæ liczbê miejsc dostêpnych
 	for (short x = 0; x < enemy_number; ++x)
 	{
 		current_number = rand()%opt_left;
@@ -99,7 +110,7 @@ bool Board::move_all_enemies()
 			layout[y*size+x] = false;
 			enemies_left[y*size+x] = false;
 		}
-	layout[win_cords/(size*2+2)*size+win_cords%(size*2+2)] = true;
+	layout[win_cords/(size*2+2)*size-size+(win_cords%(size*2+2)-1)/2] = true; // blokujemy koordynaty mety
 	for (short x = 0; x < enemy_number; ++x)
 		enemies_left[enemy[x].cord_y*size+enemy[x].cord_x] = true;
 	for (short x = 0; x < enemy_number; ++x)
