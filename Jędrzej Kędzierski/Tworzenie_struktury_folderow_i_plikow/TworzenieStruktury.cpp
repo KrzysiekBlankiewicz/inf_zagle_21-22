@@ -2,12 +2,12 @@
 
 int TworzenieStruktury()
 {
-	mkdir("./Jêdrzej_Kêdzierski");
-	mkdir("./Jêdrzej_Kêdzierski/C++");
+	mkdir("./Jedrzej_Kedzierski");
+	mkdir("./Jedrzej_Kedzierski/C++");
 	
 	fstream file;
 	
-	file.open("./Jêdrzej_Kêdzierski/C++/tasks.txt", ios::out);
+	file.open("./Jedrzej_Kedzierski/C++/tasks.txt", ios::out);
 	
 	if(file.good()==false)
 	{

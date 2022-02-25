@@ -117,7 +117,7 @@ int ZapisywanieProjektow()
 {
 	fstream file;
 	
-	file.open("./Jêdrzej_Kêdzierski/C++/tasks.txt", ios::in);
+	file.open("./Jedrzej_Kedzierski/C++/tasks.txt", ios::in);
 	
 	if(file.good()==false)
 	{
@@ -159,7 +159,7 @@ int ZapisywanieProjektow()
 		}
 	}
 	
-	file.open("./Jêdrzej_Kêdzierski/C++/tasks.txt", ios::out|ios::app);
+	file.open("./Jedrzej_Kedzierski/C++/tasks.txt", ios::out|ios::app);
 	
 	if(file.good()==false)
 	{
@@ -208,7 +208,7 @@ int ZapisywanieProjektow()
 	
 	file.close();
 	
-	string f="./Jêdrzej_Kêdzierski/C++/task_"+n;
+	string f="./Jedrzej_Kedzierski/C++/task_"+n;
 	string p=f+"/readme.txt";
 	
 	mkdir(f.c_str());
