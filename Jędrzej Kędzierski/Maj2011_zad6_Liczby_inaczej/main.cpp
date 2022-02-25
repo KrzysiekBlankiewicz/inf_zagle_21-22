@@ -51,8 +51,7 @@ int main(int argc, char** argv) {
 	int suma_10=0;
 	string suma;
 	
-	fstream infile;
-	infile.open("liczby.txt", ios::in);
+	fstream infile("liczby.txt", ios::in);
 	
 	while(infile>>x)
 	{
@@ -80,11 +79,13 @@ int main(int argc, char** argv) {
 	
 	suma=rekonwertuj(suma_10);
 	
-	cout<<licznik1<<endl;
-	cout<<max<<endl;
-	cout<<max_10<<endl;
-	cout<<licznik2<<endl;
-	cout<<suma<<endl;
+	fstream outfile("zadanie6.txt", ios::out);
+	
+	outfile<<"a)"<<endl<<"W calym pliku jest "<<licznik1<<" licz parzystych"<<endl<<endl;
+	outfile<<"b)"<<endl<<"Najwieksza liczba w tym pliku to:"<<endl<<max<<endl<<max_10<<endl<<endl;
+	outfile<<"c)"<<endl<<"W calym pliku dokladnie 9 czyfr ma "<<licznik2<<" liczb. Ich suma w systemie dwojkowym jest rowna "<<suma<<endl;
+	
+	outfile.close();
 	
 	return 0;
 }

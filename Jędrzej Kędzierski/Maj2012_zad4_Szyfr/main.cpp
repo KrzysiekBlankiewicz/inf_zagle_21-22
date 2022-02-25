@@ -6,10 +6,11 @@ using namespace std;
 string coding(string text, string key)
 {
 	string coded_text={};
+	char sign;
 	
 	for(int i=0; i<text.length(); i++)
 	{
-		char sign=text[i]+(key[i%key.length()]-64);
+		sign=text[i]+(key[i%key.length()]-64);
 		
 		if(sign>'Z')
 			sign-=26;
@@ -23,10 +24,11 @@ string coding(string text, string key)
 string decoding(string text, string key)
 {
 	string decoded_text={};
+	char sign;
 	
 	for(int i=0; i<text.length(); i++)
 	{
-		char sign=text[i]-(key[i%key.length()]-64);
+		sign=text[i]-(key[i%key.length()]-64);
 		
 		if(sign<'A')
 			sign+=26;
@@ -47,9 +49,7 @@ bool coding_the_text_exercise_4a()
 	string key_to_code;
 	
 	while(infile_to_code>>text_to_code && infile_key_to_code>>key_to_code)
-	{
 		outfile_coded_text<<coding(text_to_code, key_to_code)<<endl;
-	}
 	
 	infile_to_code.close();
 	infile_key_to_code.close();
@@ -68,9 +68,8 @@ bool decoding_the_text_exercise_4b()
 	string key_to_decode;
 	
 	while(infile_to_decode>>text_to_decode && infile_key_to_decode>>key_to_decode)
-	{
 		outfile_decoded_text<<decoding(text_to_decode, key_to_decode)<<endl;
-	}
+	
 	
 	infile_to_decode.close();
 	infile_key_to_decode.close();

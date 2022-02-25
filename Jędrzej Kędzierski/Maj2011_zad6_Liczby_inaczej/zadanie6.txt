@@ -1,0 +1,10 @@
+a)
+W calym pliku jest 497 licz parzystych
+
+b)
+Najwieksza liczba w tym pliku to:
+1111101111110110
+64502
+
+c)
+W calym pliku dokladnie 9 czyfr ma 101 liczb. Ich suma w systemie dwojkowym jest rowna 1001100111110111
