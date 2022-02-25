@@ -4,7 +4,15 @@
 #include "Board.h"
 
 bool Board::set_up_game()
-{
+{	
+	std::cout << "wprowadz ilosc przeciwnikow: ";
+	while (!(std::cin >> enemy_number))
+	{
+		std::cin.clear();
+		std::cin.ignore(INT_MAX, '\n');
+		std::cout << "nieprawidlowa ilosc\n";
+	}
+	enemy = new Player[enemy_number];
 	std::cout << "wprowadz rozmiar planszy: ";
 	do
 	{
@@ -15,6 +23,7 @@ bool Board::set_up_game()
 			std::cout << "zbyt mala plansza\n";
 		else break;
 	} while (true);
+	
 	system("CLS");
 	mainPlayer.cord_x = rand()%size;
 	mainPlayer.cord_y = size-1;
@@ -188,3 +197,7 @@ std::string Board::which_directions_possible(short x, bool layout[], bool enemie
 	}
 	return output;
 }
+
+
+
+
