@@ -11,11 +11,9 @@ class Board
 	public:
 	int size;
 	short win_cords;
-	//const static short enemy_number = 10;
-	short enemy_number;
+	unsigned short enemy_number;
 	Player mainPlayer;
 	Player* enemy;
-	//Player enemy[enemy_number];
 	animations anim_handling;
 	
 	bool set_up_game();

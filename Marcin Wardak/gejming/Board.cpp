@@ -16,7 +16,13 @@ bool Board::set_up_game()
 	std::cout << "wprowadz rozmiar planszy: ";
 	do
 	{
-		std::cin >> size;
+		if (!(std::cin >> size))
+		{
+			std::cin.clear();
+			std::cin.ignore(INT_MAX, '\n');
+			std::cout << "nieprawidlowa ilosc\n";
+			continue;
+		}
 		if ((int)(size*(size-1))>INT_MAX)
 			std::cout << "zbyt duza plansza\n";
 		else if (enemy_number>size*(size-1)-1)
@@ -197,7 +203,3 @@ std::string Board::which_directions_possible(short x, bool layout[], bool enemie
 	}
 	return output;
 }
-
-
-
-
