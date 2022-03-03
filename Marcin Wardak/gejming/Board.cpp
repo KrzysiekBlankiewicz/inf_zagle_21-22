@@ -4,17 +4,32 @@
 #include "Board.h"
 
 bool Board::set_up_game()
-{
+{	
+	std::cout << "wprowadz ilosc przeciwnikow: ";
+	while (!(std::cin >> enemy_number))
+	{
+		std::cin.clear();
+		std::cin.ignore(INT_MAX, '\n');
+		std::cout << "nieprawidlowa ilosc\n";
+	}
+	enemy = new Player[enemy_number];
 	std::cout << "wprowadz rozmiar planszy: ";
 	do
 	{
-		std::cin >> size;
+		if (!(std::cin >> size))
+		{
+			std::cin.clear();
+			std::cin.ignore(INT_MAX, '\n');
+			std::cout << "nieprawidlowa ilosc\n";
+			continue;
+		}
 		if ((int)(size*(size-1))>INT_MAX)
 			std::cout << "zbyt duza plansza\n";
 		else if (enemy_number>size*(size-1)-1)
 			std::cout << "zbyt mala plansza\n";
 		else break;
 	} while (true);
+	
 	system("CLS");
 	mainPlayer.cord_x = rand()%size;
 	mainPlayer.cord_y = size-1;
