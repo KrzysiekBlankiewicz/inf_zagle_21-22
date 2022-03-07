@@ -1,28 +1,53 @@
 #include <iostream>
 #include <fstream>
-#include <cmath>
 
 using namespace std;
 
-bool czy_pierwsza_ostatnia_ta_sama(string number)
+bool is_ascending(string number)
 {
-	if(number[0]==number[number.length()-1])
-		return true;
-	else
-		return false;
+	for(int i=1; i<number.length(); i++)
+	{
+		if(number[i]<number[i-1])
+			return 0;
+	}
+	
+	return 1;
 }
 
+int pow(int base, int exponent) // potegowanie bez biblioteki <cmath>
+{
+	int power=1;
+	
+	if(exponent==0)
+		return power; // power ma wartosc 1
+	else
+	{
+		for(int i=0; i<exponent; i++)
+		{
+			power*=base;
+		}
+	}
+	
+	return power;
+}
 
+bool is_first_last_equal(int number)
+{
+	int last_number=number%10;
+	
+	while(number>=10)
+		number/=10;
+	
+	return number==last_number;
+}
 
-int conversion_to_10(string number_8)
+int conversion_from_8_to_10(string number_8)
 {
 	int number_10=0;
-	int cyfra;
 	
 	for(int i=0; i<number_8.length(); i++)
 	{
-		cyfra=number_8[number_8.length()-1-i]-48;
-		number_10+=8*pow(8, i);
+		number_10+=(number_8[i]-48)*pow(8, number_8.length()-1-i);
 	}
 	
 	return number_10;
@@ -31,19 +56,52 @@ int conversion_to_10(string number_8)
 int main(int argc, char** argv) {
 	
 	string number_8;
+	int number_10;
+	int counter_a=0;
+	int counter_b=0;
+	int counter_c=0;
+	int max_10=0;
+	int min_10=INT_MAX;
+	string max_8="";
+	string min_8="";
 	fstream infile("dane.txt", ios::in);
-	
-	int licznik_a=0;
-	int licznik_b=0;
 	
 	while(infile>>number_8)
 	{
-		if(czy_pierwsza_ostatnia_ta_sama(number_8))
-			licznik_a++;
+		if(number_8[0]==number_8[number_8.length()-1]) // a)
+			counter_a++;
+			
+		/*if(is_first_last_equal(conversion_from_8_to_10(number_8)))
+			counter_b++;*/
 		
+		number_10=conversion_from_8_to_10(number_8); // b)
+		counter_b+=is_first_last_equal(number_10);
+		
+		if(is_ascending(number_8)) // c)
+		{
+			counter_c++;
+			
+			if(number_10>max_10)
+			{
+				max_10=number_10;
+				max_8=number_8;
+			}
+			
+			if(number_10<min_10)
+			{
+				min_10=number_10;
+				min_8=number_8;
+			}
+		}
 	}
 	
-	cout<<licznik_a<<endl<<licznik_b<<endl;
+	infile.close();
+	
+	fstream outfile("wyniki6.txt", ios::out);
+	
+	outfile<<"a)"<<endl<<counter_a<<endl<<endl<<"b)"<<endl<<counter_b<<endl<<endl<<"c)"<<endl<<counter_c<<" liczb spelnia warunek"<<endl<<"najwieksza liczba: "<<max_10<<"(10), "<<max_8<<"(8)"<<endl<<"najmniejsza liczba: "<<min_10<<"(10), "<<min_8<<"(8)"<<endl;
+	
+	outfile.close();
 	
 	return 0;
 }
