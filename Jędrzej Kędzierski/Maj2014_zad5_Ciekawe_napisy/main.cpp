@@ -1,9 +1,10 @@
 #include <iostream>
 #include <fstream>
+#include <string>
 
 using namespace std;
 
-bool first(int a)
+bool prime(int a)
 {
 	if(a==1)
 		return 0;
@@ -48,50 +49,60 @@ int main(int argc, char** argv) {
 	fstream infile("NAPIS.txt", ios::in);
 	fstream outfile("wyniki5.txt", ios::out);
 	
-	string napis[1000];
+	string writing[1000];
 	int counter=0;
 	
 	for(int i=0; i<1000; i++)
 	{
-		infile>>napis[i];
+		infile>>writing[i];
 		
-		if(first(sum(napis[i])))
+		if(prime(sum(writing[i])))
 			counter++;
 	}
 	
-	outfile<<counter<<endl;
+	outfile<<"a)"<<endl<<endl<<counter<<endl<<endl;
+	outfile<<"b)"<<endl<<endl;
 	
 	for(int i=0; i<1000; i++)
 	{
-		if(ascending(napis[i]))
-			outfile<<napis[i]<<endl;
+		if(ascending(writing[i]))
+			outfile<<writing[i]<<endl;
 	}
 	
-	outfile<<endl;
+	outfile<<endl<<endl;
+	outfile<<"c)"<<endl<<endl;
 	
 	for(int i=0; i<1000; i++)
 	{
 		int counter2=0;
 		
-		if(napis[i]=="")
+		if(writing[i]=="")
 			continue;
 		
-		for(int j=0; i<1000; j++)
-		{
-			if(j==i)
-				continue;
-			
-			if(napis[i]==napis[j])
+		for(int j=i+1; j<1000; j++)
+			if(writing[i]==writing[j])
 			{
 				counter2++;
-				napis[j]="";
+				writing[j].resize(0);
 			}
-		}
 		
 		if(counter2>0)
-			outfile<<napis[i]<<endl;
+			outfile<<writing[i]<<endl;
 	}
 	
+	/*for(int i=0; i<1000; i++)
+	{
+		for(int j=i+1; j<1000; j++)
+			if (napis[i].length()>0&&napis[i]==napis[j])
+			{
+				cout<<napis[i]<<endl;
+				napis[i].resize(0);
+				napis[j].resize(0);
+			}
+	}*/
+	
+	infile.close();
+	outfile.close();
 	
 	return 0;
 }
