@@ -1,0 +1,10 @@
+a)
+447
+
+b)
+324
+
+c)
+49 liczb spelnia warunek
+najwieksza liczba: 308975(10), 1133357(8)
+najmniejsza liczba: 20(10), 24(8)
